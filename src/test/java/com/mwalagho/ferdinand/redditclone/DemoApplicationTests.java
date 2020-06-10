@@ -1,4 +1,4 @@
-package com.mwalagho.ferdinand.demo;
+package com.mwalagho.ferdinand.redditclone;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
