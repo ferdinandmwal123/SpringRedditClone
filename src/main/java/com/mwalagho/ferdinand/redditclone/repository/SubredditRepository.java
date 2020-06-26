@@ -1,12 +1,13 @@
 package com.mwalagho.ferdinand.redditclone.repository;
 
-import com.mwalagho.ferdinand.redditclone.model.User;
+import com.mwalagho.ferdinand.redditclone.model.Subreddit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+public interface SubredditRepository extends JpaRepository<Subreddit, Long> {
+    Optional<Subreddit> findByName(String subredditName);
+
 }
