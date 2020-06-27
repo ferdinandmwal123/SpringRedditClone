@@ -30,24 +30,25 @@ public class CommentService {
     private final MailContentBuilder mailContentBuilder;
     private final MailService mailService;
 
-
     public void save(CommentsDto commentsDto) {
-        Post post = postRepository.findById(commentsDto.getPostId()).orElseThrow(() -> new PostNotFoundException(commentsDto.getPostId().
-                toString()));
+        Post post = postRepository.findById(commentsDto.getPostId())
+                .orElseThrow(() -> new PostNotFoundException(commentsDto.getPostId().toString()));
         Comment comment = commentMapper.map(commentsDto, post, authService.getCurrentUser());
         commentRepository.save(comment);
 
-        String message = mailContentBuilder.build(post.getUser().getUsername() + "posted a comment on your post" + POST_URL);
+        String message = mailContentBuilder.build(post.getUser().getUsername() + " posted a comment on your post." + POST_URL);
         sendCommentNotification(message, post.getUser());
     }
 
     private void sendCommentNotification(String message, User user) {
-        mailService.sendMail(new NotificationEmail(user.getUsername() + "Commented on your post", user.getEmail(), message));
+        mailService.sendMail(new NotificationEmail(user.getUsername() + " Commented on your post", user.getEmail(), message));
     }
 
     public List<CommentsDto> getAllCommentsForPost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId.toString()));
-        return commentRepository.findByPost(post).stream().map(commentMapper::mapToDto).collect(toList());
+        return commentRepository.findByPost(post)
+                .stream()
+                .map(commentMapper::mapToDto).collect(toList());
     }
 
     public List<CommentsDto> getAllCommentsForUser(String userName) {
