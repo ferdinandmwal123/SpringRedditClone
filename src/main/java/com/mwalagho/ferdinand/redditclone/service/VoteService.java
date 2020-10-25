@@ -31,7 +31,8 @@ public class VoteService {
                 .orElseThrow(() -> new PostNotFoundException("Post not found with Id" + voteDto.getPostId().toString()));
         Optional<Vote> voteByPostAndUser = voteRepository.findTopByPostAndUserOrderByVoteIdDesc(post, authService.getCurrentUser());
         //this code allows user to only upvote or downvote once
-        if (voteByPostAndUser.isPresent() && voteByPostAndUser.get().getVoteType()
+        if (voteByPostAndUser.isPresent() &&
+                voteByPostAndUser.get().getVoteType()
                 .equals(voteDto.getVoteType())) {
             throw new SpringRedditException("You have already " + voteDto.getVoteType() + "'d for this post");
         }

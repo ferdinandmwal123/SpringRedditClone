@@ -9,33 +9,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/**
+ * we write a controller class to handle requests coming from the client.
+ * Then, the controller invokes a business class to process business-related tasks,
+ */
 @RestController
 @RequestMapping("/api/subreddit")
 @AllArgsConstructor
 @Slf4j
 public class SubredditController {
 
-    /**
-     * we write a controller class to handle requests coming from the client.
-     * Then, the controller invokes a business class to process business-related tasks,
-     */
-
     private final SubredditService subredditService;
 
     @PostMapping
-    public void createSubreddit(@RequestBody SubredditDto subredditDto) {
-        ResponseEntity.status(HttpStatus.CREATED).body(subredditService.save(subredditDto));
+    public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto subredditDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(subredditService.save(subredditDto));
     }
 
     @GetMapping
     public ResponseEntity<List<SubredditDto>> getAllSubreddits() {
-        return ResponseEntity.status(HttpStatus.OK).body(subredditService.getAll());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(subredditService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(subredditService.getSubreddit(id));
     }
 }

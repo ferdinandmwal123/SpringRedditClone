@@ -27,16 +27,18 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 public class PostService {
 
-    private final UserRepository userRepository;
     private final PostRepository postRepository;
-    private final PostMapper postMapper;
     private final SubredditRepository subredditRepository;
+    private final UserRepository userRepository;
     private final AuthService authService;
+    private final PostMapper postMapper;
 
-    public void save(PostRequest postRequest) {
+    public Post save(PostRequest postRequest) {
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
                 .orElseThrow(() -> new SubredditNotFoundException(postRequest.getSubredditName()));
+        User currentUser = authService.getCurrentUser();
         postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
+        return postMapper.map(postRequest, subreddit,currentUser);
     }
 
     @Transactional(readOnly = true)

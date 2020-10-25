@@ -32,7 +32,7 @@ public class MailService {
             mailSender.send(messagePreparator);
             log.info("Activation mail sent!");
         } catch (MailException e){
-            throw new SpringRedditException("Exception occured when sending mail to");
+            throw new SpringRedditException("Exception occured when sending mail to" + notificationEmail.getRecipient());
         }
     }
 }
